@@ -1,8 +1,29 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 # FAQ
+
+- [Questions?](#questions)
+- [What's the deal with extensions?](#whats-the-deal-with-extensions)
+- [How is this different from VS Code Online?](#how-is-this-different-from-vs-code-online)
+- [How should I expose code-server to the internet?](#how-should-i-expose-code-server-to-the-internet)
+- [How do I securely access web services?](#how-do-i-securely-access-web-services)
+  - [Sub-domains](#sub-domains)
+  - [Sub-paths](#sub-paths)
+- [x86 releases?](#x86-releases)
+- [Multi Tenancy](#multi-tenancy)
+- [Docker in code-server docker container?](#docker-in-code-server-docker-container)
+- [Collaboration](#collaboration)
+- [How can I disable telemetry?](#how-can-i-disable-telemetry)
+- [How does code-server decide what workspace or folder to open?](#how-does-code-server-decide-what-workspace-or-folder-to-open)
+- [GPG and SSH forwarding](#gpg-and-ssh-forwarding)
+- [Enterprise](#enterprise)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Questions?
 
-Please file all questions and support requests at https://www.reddit.com/r/codeserver/
+Please file all questions and support requests at https://www.reddit.com/r/codeserver/.
+
 The issue tracker is only for bugs.
 
 ## What's the deal with extensions?
@@ -34,6 +55,8 @@ code-server is open source and can be freely run on any machine.
 
 ## How should I expose code-server to the internet?
 
+### sshcode
+
 By far the most secure method of using code-server is via
 [sshcode](https://github.com/codercom/sshcode) as it runs code-server and then forwards
 its port over SSH and requires no setup on your part other than having a working SSH server.
@@ -44,19 +67,23 @@ and securely sign commits without duplicating your keys onto the the remote mach
 1. https://developer.github.com/v3/guides/using-ssh-agent-forwarding/
 1. https://wiki.gnupg.org/AgentForwarding
 
-If you cannot use sshcode, then you will need to ensure there is some sort of authorization in
-front of code-server and that you are using HTTPS to secure all connections.
+### Direct
 
-By default when listening externally, code-server enables password authentication using a
-randomly generated password so you can use that. You can set the `PASSWORD` environment variable
-to use your own instead. If you want to handle authentication yourself, use `--auth none`
-to disable password authentication.
+If you cannot use sshcode, then you will need to expose code-server directly
+to the internet and ensure there is some sort of authorization and that you
+are using HTTPS to secure all connections.
+
+By default, code-server enables password authentication using a
+randomly generated password so you can use that. You can set the `PASSWORD`
+environment variable to use your own instead. If you want to handle
+authentication yourself, use `--auth none` to disable password authentication.
 
 If you want to use external authentication you should handle this with a reverse
 proxy using something like [oauth2_proxy](https://github.com/pusher/oauth2_proxy).
 
-For HTTPS, you can use a self signed certificate by passing in just `--cert` or pass in an existing
-certificate by providing the path to `--cert` and the path to its key with `--cert-key`.
+For HTTPS, you can use a self signed certificate by passing in just `--cert` or
+pass in an existing certificate by providing the path to `--cert` and the path to
+its key with `--cert-key`.
 
 If `code-server` has been passed a certificate it will also respond to HTTPS
 requests and will redirect all HTTP requests to HTTPS. Otherwise it will respond
@@ -99,10 +126,6 @@ Just browse to `/proxy/<port>/`.
 node has dropped support for x86 and so we decided to as well. See
 [nodejs/build/issues/885](https://github.com/nodejs/build/issues/885).
 
-## Alpine builds?
-
-Just install `libc-dev` and code-server should work.
-
 ## Multi Tenancy
 
 If you want to run multiple code-server's on shared infrastructure, we recommend using virtual
@@ -125,8 +148,9 @@ to make volume mounts in any other directory work.
 
 ## Collaboration
 
-At the moment we have no plans for multi user collaboration on code-server but we understand there is strong
-demand and will work on it when the time is right.
+We understand the high demand but tgihe team is swamped right now.
+
+You can follow progress at [#33](https://github.com/cdr/code-server/issues/33).
 
 ## How can I disable telemetry?
 
