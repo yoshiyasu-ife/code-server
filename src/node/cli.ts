@@ -290,6 +290,9 @@ export const parse = (argv: string[]): Args => {
 // to ~/.config/code-server/config.yaml.
 export async function readConfig(args: Args): Promise<void> {
   if (args.config === undefined) {
+
+  }
+  if (args.config === undefined) {
     if (process.env.CODE_SERVER_CONFIG === undefined) {
       // Let's try a default of ~/.config/code-server/config.yaml
       return
